@@ -24,16 +24,8 @@ zuul:
       path: /details/**
       serviceId: details
       stripPrefix: false
-    reviews-v1:
-      path: /reviews-v1/**
-      serviceId: reviews-v1
-      stripPrefix: false
-    reviews-v2:
-      path: /reviews-v2/**
-      serviceId: reviews-v2
-      stripPrefix: false
-    reviews-v3:
-      path: /reviews-v3/**
-      serviceId: reviews-v3
+    reviews:
+      path: /reviews/**
+      serviceId: reviews
       stripPrefix: false
 
