@@ -1,0 +1,33 @@
+details/target/
+eureka/target/
+productpage/target/
+revieews-v1/target/
+revieews-v2/target/
+revieews-v3/target/
+details/!.mvn/wrapper/maven-wrapper.jar
+eureka/!.mvn/wrapper/maven-wrapper.jar
+revieews-v1/!.mvn/wrapper/maven-wrapper.jar
+revieews-v2/!.mvn/wrapper/maven-wrapper.jar
+revieews-v3/!.mvn/wrapper/maven-wrapper.jar
+
+### STS ###
+.apt_generated
+.classpath
+.factorypath
+.project
+.settings
+.springBeans
+
+### IntelliJ IDEA ###
+.idea
+*.iws
+*.iml
+*.ipr
+
+### NetBeans ###
+nbproject/private/
+build/
+nbbuild/
+dist/
+nbdist/
+.nb-gradle/

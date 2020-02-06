@@ -1,0 +1,16 @@
+server:
+  port: 8083    #default port where the service will be started
+spring:
+  application:
+    name: reviews-v3   #current service name to be used by the eureka server
+eureka:         #tells about the Eureka server details and its refresh time
+  instance:
+    leaseRenewalIntervalInSeconds: 1
+    leaseExpirationDurationInSeconds: 2
+  client:
+    serviceUrl:
+      defaultZone: http://localhost:9090/eureka/
+    healthcheck:
+      enabled: true
+    lease:
+      duration: 5
