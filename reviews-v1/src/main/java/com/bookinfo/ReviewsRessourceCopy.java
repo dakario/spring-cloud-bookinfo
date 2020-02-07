@@ -25,7 +25,7 @@ import org.springframework.web.bind.annotation.RestController;
 import java.io.StringReader;
 
 @RestController
-public class ReviewsRessource {
+public class ReviewsRessourceCopy {
     private final static Boolean ratings_enabled = Boolean.valueOf(System.getenv("ENABLE_RATINGS"));
     private final static String star_color = System.getenv("STAR_COLOR") == null ? "black" : System.getenv("STAR_COLOR");
     private final static String services_domain = System.getenv("SERVICES_DOMAIN") == null ? "" : ("." + System.getenv("SERVICES_DOMAIN"));
@@ -108,12 +108,12 @@ public class ReviewsRessource {
       }
     }
 
-    @RequestMapping("/health")
+  //  @RequestMapping("/health")
     public Response health() {
         return Response.ok().type(MediaType.APPLICATION_JSON).entity("{\"status\": \"Reviews is healthy\"}").build();
     }
 
-    @RequestMapping("/reviews/{productId}")
+   // @RequestMapping("/reviews/{productId}")
     public Response bookReviewsById(@PathVariable("productId") int productId, @RequestHeader HttpHeaders requestHeaders) {
       int starsReviewer1 = -1;
       int starsReviewer2 = -1;
