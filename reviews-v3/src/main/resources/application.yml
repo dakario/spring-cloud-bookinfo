@@ -2,7 +2,7 @@ server:
   port: 8083    #default port where the service will be started
 spring:
   application:
-    name: reviews-v3   #current service name to be used by the eureka server
+    name: reviews   #current service name to be used by the eureka server
 eureka:         #tells about the Eureka server details and its refresh time
   instance:
     leaseRenewalIntervalInSeconds: 1
