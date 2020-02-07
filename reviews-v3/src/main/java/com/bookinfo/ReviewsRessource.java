@@ -1,6 +1,6 @@
 package com.bookinfo;
 
-import java.util.List;
+import java.util.List; 
 
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -31,6 +31,9 @@ public class ReviewsRessource {
     public Response bookReviewsById(@PathVariable("productId") int productId, @RequestHeader HttpHeaders requestHeaders) {
       
       List<Review> reviews = reviewsService.getByProductId(productId);
+      reviews.stream().map(review -> {
+    	  return review.rating(restTemplate.getForObject("http://ratings/ratings/"+productId, Rating.class));
+      });
       
       return Response.ok().type(MediaType.APPLICATION_JSON).entity(reviews).build();
 	}
