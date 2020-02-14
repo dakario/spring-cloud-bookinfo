@@ -9,10 +9,10 @@
         <relativePath/> <!-- lookup parent from repository -->
     </parent>
     <groupId>com.bookinfo</groupId>
-    <artifactId>details</artifactId>
+    <artifactId>reviews</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <name>details</name>
-    <description>details</description>
+    <name>reviews</name>
+    <description>reviews</description>
 
     <properties>
         <java.version>1.8</java.version>
@@ -24,17 +24,23 @@
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>
         </dependency>
+
         <dependency>
             <groupId>org.springframework.cloud</groupId>
             <artifactId>spring-cloud-starter-netflix-eureka-client</artifactId>
         </dependency>
         <dependency>
-            <groupId>org.springframework.cloud</groupId>
-            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
-        </dependency>
-        <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-actuator</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-openfeign</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.cloud</groupId>
+            <artifactId>spring-cloud-starter-netflix-ribbon</artifactId>
         </dependency>
 
         <dependency>
@@ -72,25 +78,6 @@
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
             </plugin>
-			<plugin>
-			  <groupId>org.codehaus.mojo</groupId>
-			  <artifactId>exec-maven-plugin</artifactId>
-			  <version>1.2.1</version>
-			  <executions>
-			    <execution>
-			      <goals>
-			        <goal>java</goal>
-			      </goals>
-			    </execution>
-			  </executions>
-			  <configuration>
-			    <mainClass>com.bookinfo.DetailsApplication</mainClass>
-			    <arguments>
-			      <argument>foo</argument>
-			      <argument>bar</argument>
-			    </arguments>
-			  </configuration>
-			</plugin>
         </plugins>
     </build>
 
