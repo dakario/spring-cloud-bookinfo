@@ -31,8 +31,9 @@ build/
 .vscode/
 
 productpage/target
-detailss/target
+details/target
 reviews/target
-ratings/target
+ratings/node_modules
+ratings/package-lock.json
 eureka/target
 zuul/target
