@@ -1,14 +1,8 @@
-details/target/
-eureka/target/
-productpage/target/
-revieews-v1/target/
-revieews-v2/target/
-revieews-v3/target/
-details/!.mvn/wrapper/maven-wrapper.jar
-eureka/!.mvn/wrapper/maven-wrapper.jar
-revieews-v1/!.mvn/wrapper/maven-wrapper.jar
-revieews-v2/!.mvn/wrapper/maven-wrapper.jar
-revieews-v3/!.mvn/wrapper/maven-wrapper.jar
+HELP.md
+target/
+!.mvn/wrapper/maven-wrapper.jar
+!**/src/main/**
+!**/src/test/**
 
 ### STS ###
 .apt_generated
@@ -17,6 +11,7 @@ revieews-v3/!.mvn/wrapper/maven-wrapper.jar
 .project
 .settings
 .springBeans
+.sts4-cache
 
 ### IntelliJ IDEA ###
 .idea
@@ -25,9 +20,20 @@ revieews-v3/!.mvn/wrapper/maven-wrapper.jar
 *.ipr
 
 ### NetBeans ###
-nbproject/private/
+/nbproject/private/
+/nbbuild/
+/dist/
+/nbdist/
+/.nb-gradle/
 build/
-nbbuild/
-dist/
-nbdist/
-.nb-gradle/
+
+### VS Code ###
+.vscode/
+
+productpage/target
+details/target
+reviews/target
+ratings/node_modules
+ratings/package-lock.json
+eureka/target
+zuul/target

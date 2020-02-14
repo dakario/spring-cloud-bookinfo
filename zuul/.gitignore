@@ -29,3 +29,11 @@ build/
 
 ### VS Code ###
 .vscode/
+
+productpage/target
+details/target
+reviews/target
+ratings/node_modules
+ratings/package-lock.json
+eureka/target
+zuul/target

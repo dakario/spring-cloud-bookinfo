@@ -1,16 +1,63 @@
 server:
-  port: 8080    #default port where the service will be started
+  port: ${SERVER_PORT:8080}    #default port where the service will be started
 spring:
   application:
     name: productpage   #current service name to be used by the eureka server
+  session:
+    store-type: jdbc
+    # Database schema initialization mode.
+    jdbc:
+      initialize-schema: always
+      # Path to the SQL file to use to initialize the database schema.
+      schema: classpath:org/springframework/session/jdbc/schema-@@platform@@.sql
+      # Name of the database table used to store sessions.
+      table-name: SPRING_SESSION
+  h2:
+    console:
+      enabled: true
+  datasource:
+    url: jdbc:h2:file:~/testdb
+    driverClassName: org.h2.Driver
+    username: sa
+    password:
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create
+    database-platform:
+      org:
+        hibernate:
+          dialect: H2Dialect
 eureka:         #tells about the Eureka server details and its refresh time
   instance:
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
+    fetchRegistry: true
+    registerWithEureka: true
     serviceUrl:
-      defaultZone: http://localhost:9090/eureka/
+      defaultZone: http://192.168.1.10:9090/eureka/
     healthcheck:
       enabled: true
     lease:
       duration: 5
+
+feign:
+  client:
+    config:
+      details:
+        connectTimeout: 3000
+        readTimeout: 3000
+        loggerLevel: full
+      reviews:
+        connectTimeout: 3000
+        readTimeout: 3000
+        loggerLevel: full
+      ratings:
+        connectTimeout: 3000
+        readTimeout: 3000
+        loggerLevel: full
+
+ribbon:
+  eureka:
+    enabled: true
