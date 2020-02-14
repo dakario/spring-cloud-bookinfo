@@ -29,3 +29,10 @@ build/
 
 ### VS Code ###
 .vscode/
+
+productpage/target
+detailss/target
+reviews/target
+ratings/target
+eureka/target
+zuul/target

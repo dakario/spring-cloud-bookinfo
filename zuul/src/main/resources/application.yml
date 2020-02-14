@@ -1,5 +1,5 @@
 server:
-  port: 8888    #default port where the service will be started
+  port: ${SERVER_PORT:8000}    #default port where the service will be started
 spring:
   application:
     name: zuul   #current service name to be used by the eureka server
@@ -8,8 +8,10 @@ eureka:         #tells about the Eureka server details and its refresh time
     leaseRenewalIntervalInSeconds: 1
     leaseExpirationDurationInSeconds: 2
   client:
+    fetchRegistry: true
+    registerWithEureka: true
     serviceUrl:
-      defaultZone: http://localhost:9090/eureka/
+      defaultZone: http://192.168.1.10:9090/eureka/
     healthcheck:
       enabled: true
     lease:
@@ -20,6 +22,10 @@ zuul:
       path: /productpage/**
       serviceId: productpage
       stripPrefix: false
+    webjars:
+      path: /webjars/**
+      serviceId: productpage
+      stripPrefix: false
     details:
       path: /details/**
       serviceId: details
@@ -28,4 +34,11 @@ zuul:
       path: /reviews/**
       serviceId: reviews
       stripPrefix: false
+    ratings:
+      path: /ratings/**
+      serviceId: ratings
+      stripPrefix: false
+ribbon:
+  eureka:
+    enabled: true
 
