@@ -6,7 +6,7 @@ const client = new Eureka({
     // application instance information
     instance: {
         app: 'ratings',
-        hostName: '192.168.1.10',
+        hostName: 'localhost',
         ipAddr: '0.0.0.0',
         port: {
             '$': port,
@@ -20,7 +20,7 @@ const client = new Eureka({
         },
     },
     eureka: {
-        host: '192.168.1.10',
+        host: 'localhost',
         port: 9090,
         servicePath: '/eureka/apps/',
     },

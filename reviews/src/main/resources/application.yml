@@ -1,5 +1,5 @@
 server:
-  port: ${SERVER_PORT:8081}    #default port where the service will be started
+  port: ${SERVER_PORT:8093}    #default port where the service will be started
 spring:
   application:
     name: reviews   #current service name to be used by the eureka server
@@ -12,7 +12,7 @@ eureka:         #tells about the Eureka server details and its refresh time
     fetchRegistry: true
     registerWithEureka: true
     serviceUrl:
-      defaultZone: http://192.168.1.10:9090/eureka/
+      defaultZone: http://localhost:9090/eureka/
     healthcheck:
       enabled: true
     lease:
@@ -30,6 +30,6 @@ ribbon:
   eureka:
     enabled: true
 
-enable_ratings: ${ENABLE_RATINGS:false}
+enable_ratings: ${ENABLE_RATINGS:true}
 star_color: ${STAR_COLOR:black}
 
