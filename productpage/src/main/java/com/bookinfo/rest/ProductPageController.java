@@ -1,11 +1,12 @@
 package com.bookinfo.rest;
 
-import com.bookinfo.client.DetailsClient;
-import com.bookinfo.client.RatingsClient;
-import com.bookinfo.client.ReviewsClient;
+import com.bookinfo.client.DetailsService; 
+import com.bookinfo.client.ReviewsService;
 import com.bookinfo.entity.Details;
 import com.bookinfo.entity.Product;
-import feign.RetryableException;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixCommand;
+import com.netflix.hystrix.contrib.javanica.annotation.HystrixProperty;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
@@ -16,17 +17,14 @@ import org.springframework.web.client.RestClientException;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
 
 @Controller
 public class ProductPageController {
     @Autowired
-    private DetailsClient detailsClient;
+    private DetailsService detailsClient;
     @Autowired
-    private ReviewsClient reviewsClient;
-    @Autowired
-    private RatingsClient ratingsClient;
+    private ReviewsService reviewsClient;
 
     @GetMapping("/")
     public String getIndex(Model model) {
@@ -51,9 +49,9 @@ public class ProductPageController {
     }
 
     @GetMapping("/productpage")
-    //@HystrixCommand(fallbackMethod = "fallback_front", commandProperties = {
-    //        @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
-    //})
+    @HystrixCommand(fallbackMethod = "fallback_front", commandProperties = {
+            @HystrixProperty(name = "execution.isolation.thread.timeoutInMilliseconds", value = "1000")
+    })
     public String front(HttpServletRequest request, Model model) {
         Product product = getProducts().get(0);
         model.addAttribute("product", product);
@@ -63,6 +61,13 @@ public class ProductPageController {
         getReviews(product.getId(), model);
         return "productpage";
     }
+    
+    private String fallback_front(HttpServletRequest request, Model model) {
+    	System.out.println("frontfallback called...");
+        model.addAttribute("reviewserror", "Sorry, product reviews are currently unavailable for this book.");
+    	return "productpage";
+    }
+
     @RequestMapping(value = "/api/v1/products", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public List<Product> getAllProducts(){
@@ -71,38 +76,29 @@ public class ProductPageController {
     @RequestMapping(value = "/api/v1/products/{idProduct}", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Details getProduct(@PathVariable int idProduct){
-        return detailsClient.getDetail(idProduct);
+        return detailsClient.getDetailByIdProduct(idProduct);
     }
     @RequestMapping(value = "/api/v1/products/{idProduct}/reviews", produces = MediaType.APPLICATION_JSON_VALUE)
     @ResponseBody
     public Object getReviews(@PathVariable int idProduct){
-        return reviewsClient.getReviews(idProduct);
+        return reviewsClient.getReviewsByIdProduct(idProduct);
     }
-    @RequestMapping(value = "/api/v1/products/{idProduct}/ratings", produces = MediaType.APPLICATION_JSON_VALUE)
-    @ResponseBody
-    public Object getRations(@PathVariable int idProduct){
-        return ratingsClient.getRatings(idProduct);
-    }
+    
     private List<Product> getProducts(){
         Product product = Product.builder()
                 .id(1)
                 .title("The Comedy of Errors")
-                .descriptionHtml("")
-                .build();
+                .descriptionHtml("");
+                //.build();
         List<Product> products = new ArrayList<>();
         products.add(product);
         return products;
     }
 
-    private String fallback_front(HttpServletRequest request, Model model) {
-        return "productpage";
-    }
 
     private void getDetails(int idProduct, Model model) {
         try {
-            HashMap<String, String> header = new HashMap<>();
-            header.put("user", "mor");
-            model.addAttribute("details", detailsClient.getDetail(idProduct));
+            model.addAttribute("details", detailsClient.getDetailByIdProduct(idProduct));
             model.addAttribute("detailsStatus", 200);
         }
         catch (RestClientException ex){
@@ -114,40 +110,13 @@ public class ProductPageController {
             }
             model.addAttribute("detailserror", "Sorry, product details are currently unavailable for this book.");
         }
-        catch (RetryableException ex){
-            model.addAttribute("detailsStatus", 500);
-            model.addAttribute("detailserror", "Sorry, product details are currently unavailable for this book.");
-        }
         catch (Exception ex){
             model.addAttribute("detailsStatus", 500);
             model.addAttribute("detailserror", "Sorry, product details are currently unavailable for this book.");
         }
     }
     private void getReviews(int idProduct, Model model) {
-        try {
-            model.addAttribute("reviews", reviewsClient.getReviews(idProduct));
-            model.addAttribute("reviewsStatus", 200);
-
-        }
-        catch (RestClientException ex){
-            System.out.println(ex);
-            if(ex instanceof HttpClientErrorException){
-                model.addAttribute("reviewsStatus", ((HttpClientErrorException) ex).getStatusCode());
-            }
-            else {
-                model.addAttribute("reviewsStatus", 500);
-            }
-            model.addAttribute("reviewserror", "Sorry, product reviews are currently unavailable for this book.");
-        }
-        catch (RetryableException ex){
-            System.out.println(ex);
-            model.addAttribute("reviewsStatus", 500);
-            model.addAttribute("reviewserror", "Sorry, product reviews are currently unavailable for this book.");
-        }
-        catch (Exception ex){
-            System.out.println(ex);
-            model.addAttribute("reviewsStatus", 500);
-            model.addAttribute("reviewserror", "Sorry, product reviews are currently unavailable for this book.");
-        }
+    	model.addAttribute("reviews", reviewsClient.getReviewsByIdProduct(idProduct));
+    	model.addAttribute("reviewsStatus", 200);
     }
 }
